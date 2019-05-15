@@ -1,0 +1,12 @@
+body {
+    background-color: #5d8ad3;
+    font-family: Georgia, serif;
+    color: white;
+}
+
+button {
+    background-color: green;
+    color: white;
+    font-size: 1.2em;
+    height: 50px;   
+}

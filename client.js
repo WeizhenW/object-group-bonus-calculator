@@ -40,12 +40,16 @@ const employees = [
 // This is not a race. Everyone on your team should understand what is happening.
 // Ask questions when you don't.
 
-console.log(employees);
-//looping through the employees array
+// console.log(employees);
 
-for(let i = 0; i < employees.length; i ++) {
-  bonusCalculator(employees[i]); //call the function by passing each individual employee object as argument
+//function loopArray to loop through the employees array and call the bonusCalculator function
+
+function loopArray(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    bonusCalculator(arr[i]); //call the function by passing each individual employee object as argument
+  }
 }
+
 
 //define the function
 function bonusCalculator(employee) {
@@ -53,30 +57,30 @@ function bonusCalculator(employee) {
   let bonusPercentage = 0;
 
   //check the employee review rating and determine the 1st part of the bonus %
-  if(employee.reviewRating <= 2) {
+  if (employee.reviewRating <= 2) {
     bonusPercentage = 0;
-  } else if(employee.reviewRating === 3) {
+  } else if (employee.reviewRating === 3) {
     bonusPercentage = 0.04;
-  } else if(employee.reviewRating === 4) {
-     bonusPercentage = 0.06;
+  } else if (employee.reviewRating === 4) {
+    bonusPercentage = 0.06;
   } else if (employee.reviewRating === 5) {
-     bonusPercentage = 0.10;
+    bonusPercentage = 0.10;
   }
 
   //check if tenure > 15y to determine the 2nd part of the bonus %
-  if(employee.employeeNumber.length === 4) {
+  if (employee.employeeNumber.length === 4) {
     bonusPercentage += 0.05;
   }
 
   //check annual income to determine the 3rd part of the bonus %
-  if(employee.annualSalary > 65000) {
-    bonusPercentage -= 0.01;    
+  if (employee.annualSalary > 65000) {
+    bonusPercentage -= 0.01;
   }
 
   //check bonus % not higher than 13% and not lower than 0
-  if(bonusPercentage > 0.13) {
+  if (bonusPercentage > 0.13) {
     bonusPercentage = 0.13;
-  } else if(bonusPercentage < 0) {
+  } else if (bonusPercentage < 0) {
     bonusPercentage = 0;
   }
 
@@ -87,14 +91,40 @@ function bonusCalculator(employee) {
   //add key/value pairs into the object
 
   newObj.name = employee.name;
-  newObj.bonusPercentage = bonusPercentage;
+  newObj.bonusPercentage = (bonusPercentage * 100).toString() + '%';
   newObj.totalBonus = Math.round(employee.annualSalary * bonusPercentage);
   newObj.totalCompensation = Number(employee.annualSalary) + newObj.totalBonus; //annualSalary is string from original array
 
-  //return result
-  console.log(newObj);
-  
+  //log result
+  // console.log(newObj);
+
+  displayObj(newObj);
+
 }
+
+//add jQuery
+
+$(document).ready(buttonClick);
+
+//click event
+function buttonClick() {
+  $('button').on('click', function() {
+    $('ul').empty();
+    loopArray(employees);
+  });
+}
+
+//append result object to ul and display in browser
+function displayObj(obj) {
+  for(let key in obj) {
+    let title = key.toUpperCase();
+    $('ul').append('<li>' + title + ': ' + obj[key] + '</li>');
+  } //loop through the object and display key/value pairs
+
+  $('ul').append('<br>');
+}
+
+
 
 
 
